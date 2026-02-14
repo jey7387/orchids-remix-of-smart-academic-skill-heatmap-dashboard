@@ -1,0 +1,11 @@
+{
+  "projectId": "82ee0010-b574-46c1-9450-907a89b30ac8",
+  "createdAt": 1770957437153,
+  "version": "1.0",
+  "startupCommands": [
+    "cd /home/user/app/backend && bun install && bun run dev",
+    "cd /home/user/app/frontend && bun install && bun run dev"
+  ],
+  "templateId": "any",
+  "detectedFramework": "any"
+}
