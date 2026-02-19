@@ -15,10 +15,22 @@ export default function Login({ onLogin }) {
     setLoading(true);
     try {
       const res = await login(email, password);
+      
+      // Store token and user data
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
+      
       onLogin(res.data.user);
-      navigate('/dashboard');
+      
+      // Role-based redirect
+      const role = res.data.user.role;
+      if (role === 'admin') {
+        navigate('/admin-dashboard');
+      } else if (role === 'faculty') {
+        navigate('/faculty-dashboard');
+      } else {
+        navigate('/student-dashboard');
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {
@@ -27,7 +39,7 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-600">SkillMap</h1>
@@ -74,14 +86,14 @@ export default function Login({ onLogin }) {
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-        </div>
 
-        <div className="mt-6 bg-white rounded-xl border border-slate-200 p-4">
-          <p className="text-xs font-medium text-slate-500 mb-2">Demo Accounts (password: password123)</p>
-          <div className="space-y-1 text-xs text-slate-400">
-            <p><span className="font-medium text-slate-600">Student:</span> alice@student.com</p>
-            <p><span className="font-medium text-slate-600">Faculty:</span> kumar@faculty.com</p>
-            <p><span className="font-medium text-slate-600">Admin:</span> admin@admin.com</p>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-slate-600">
+              Don't have an account?{' '}
+              <a href="/register" className="text-blue-600 hover:text-blue-700 font-medium">
+                Sign up
+              </a>
+            </p>
           </div>
         </div>
       </div>

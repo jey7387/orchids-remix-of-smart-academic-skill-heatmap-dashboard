@@ -37,6 +37,30 @@ const navItems = [
   },
 ];
 
+const facultyNavItems = [
+  ...navItems,
+  {
+    path: '/students/manage', label: 'Students',
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+      </svg>
+    ),
+  },
+];
+
+const adminNavItems = [
+  ...facultyNavItems,
+  {
+    path: '/auth/users', label: 'User Management',
+    icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+      </svg>
+    ),
+  },
+];
+
 export default function Layout({ children, user, onLogout }) {
   const [collapsed, setCollapsed] = useState(false);
   const [alerts, setAlerts] = useState([]);
@@ -48,6 +72,7 @@ export default function Layout({ children, user, onLogout }) {
   }, []);
 
   const pageTitle = navItems.find(n => n.path === location.pathname)?.label || 'Dashboard';
+  const currentNavItems = user?.role === 'admin' ? adminNavItems : (user?.role === 'faculty' ? facultyNavItems : navItems);
 
   return (
     <div className="flex h-screen bg-slate-100">
@@ -56,7 +81,7 @@ export default function Layout({ children, user, onLogout }) {
         {/* Logo */}
         <div className={`h-16 flex items-center border-b border-slate-200 ${collapsed ? 'justify-center px-2' : 'px-5'}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-blue-700 flex items-center justify-center shrink-0">
               <svg className="w-4.5 h-4.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -72,7 +97,7 @@ export default function Layout({ children, user, onLogout }) {
 
         {/* Nav */}
         <nav className={`flex-1 py-4 ${collapsed ? 'px-2' : 'px-3'} space-y-1`}>
-          {navItems.map((item) => (
+          {currentNavItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
@@ -108,7 +133,7 @@ export default function Layout({ children, user, onLogout }) {
         <div className={`border-t border-slate-200 ${collapsed ? 'p-2' : 'p-3'}`}>
           {collapsed ? (
             <div className="flex flex-col items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
+              <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
                 {user?.name?.charAt(0) || '?'}
               </div>
               <button
@@ -123,7 +148,7 @@ export default function Layout({ children, user, onLogout }) {
             </div>
           ) : (
             <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition-colors">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm shrink-0">
+              <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-sm shrink-0">
                 {user?.name?.charAt(0) || '?'}
               </div>
               <div className="flex-1 min-w-0">
@@ -197,7 +222,7 @@ export default function Layout({ children, user, onLogout }) {
 
             {/* User avatar */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-xs">
+              <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-xs">
                 {user?.name?.charAt(0) || '?'}
               </div>
               <div className="hidden sm:block">

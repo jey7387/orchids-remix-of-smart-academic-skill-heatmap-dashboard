@@ -4,10 +4,23 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: '/',
   server: {
     port: 5173,
     proxy: {
-      '/api': 'http://localhost:5000'
+      '/api': 'http://localhost:5006'
+    }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom']
+        }
+      }
     }
   }
 });

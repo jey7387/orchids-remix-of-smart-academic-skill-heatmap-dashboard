@@ -26,65 +26,67 @@ export default function HeatmapChart({ data }) {
   });
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider p-3 min-w-[140px]">Student</th>
-            {skills.map((skill) => (
-              <th key={skill} className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider p-3 min-w-[90px]">
-                {skill}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student) => (
-            <tr key={student} className="border-t border-slate-100 table-row-hover">
-              <td className="text-sm font-medium text-slate-700 p-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-semibold shrink-0">
-                    {student.charAt(0)}
-                  </div>
-                  <span className="truncate">{student}</span>
-                </div>
-              </td>
-              {skills.map((skill) => {
-                const score = scoreMap[`${student}-${skill}`] || 0;
-                const color = getScoreColor(score);
-                const status = getStatusConfig(score);
-                const isHovered = hoveredCell === `${student}-${skill}`;
-                return (
-                  <td key={skill} className="p-1.5 text-center">
-                    <div
-                      className="relative rounded-lg py-2.5 px-2 text-white font-semibold text-sm cursor-default transition-all duration-200"
-                      style={{
-                        backgroundColor: color,
-                        opacity: isHovered ? 1 : 0.85,
-                        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                      }}
-                      onMouseEnter={() => setHoveredCell(`${student}-${skill}`)}
-                      onMouseLeave={() => setHoveredCell(null)}
-                    >
-                      {score}
-                      {isHovered && (
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white rounded-lg text-xs whitespace-nowrap z-10 shadow-lg animate-fadeIn">
-                          <p className="font-semibold">{student}</p>
-                          <p className="text-slate-300">{skill}: {score}% - {status.label}</p>
-                          <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                );
-              })}
+    <div className="w-full overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[800px] border-collapse">
+          <thead>
+            <tr>
+              <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider p-3 min-w-[140px] sticky left-0 bg-white z-10">Student</th>
+              {skills.map((skill) => (
+                <th key={skill} className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider p-3 min-w-[90px] sticky left-0 bg-white z-10">
+                  {skill}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {students.map((student) => (
+              <tr key={student} className="border-t border-slate-100 table-row-hover">
+                <td className="text-sm font-medium text-slate-700 p-3 sticky left-0 bg-white z-10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-semibold shrink-0">
+                      {student.charAt(0)}
+                    </div>
+                    <span className="truncate">{student}</span>
+                  </div>
+                </td>
+                {skills.map((skill) => {
+                  const score = scoreMap[`${student}-${skill}`] || 0;
+                  const color = getScoreColor(score);
+                  const status = getStatusConfig(score);
+                  const isHovered = hoveredCell === `${student}-${skill}`;
+                  return (
+                    <td key={skill} className="p-1.5 text-center min-w-[90px]">
+                      <div
+                        className="relative rounded-lg py-2.5 px-2 text-white font-semibold text-sm cursor-default transition-all duration-200"
+                        style={{
+                          backgroundColor: color,
+                          opacity: isHovered ? 1 : 0.85,
+                          transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                        }}
+                        onMouseEnter={() => setHoveredCell(`${student}-${skill}`)}
+                        onMouseLeave={() => setHoveredCell(null)}
+                      >
+                        {score}
+                        {isHovered && (
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white rounded-lg text-xs whitespace-nowrap z-20 shadow-lg animate-fadeIn">
+                            <p className="font-semibold">{student}</p>
+                            <p className="text-slate-300">{skill}: {score}% - {status.label}</p>
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-8 mt-6 pt-4 border-t border-slate-100 justify-center">
+      <div className="flex items-center gap-8 mt-6 pt-4 border-t border-slate-100 justify-center bg-white">
         <div className="flex items-center gap-2 text-xs text-slate-500">
           <div className="w-6 h-3 rounded" style={{ backgroundColor: '#ef4444' }} />
           <span>Weak (&lt;50)</span>
