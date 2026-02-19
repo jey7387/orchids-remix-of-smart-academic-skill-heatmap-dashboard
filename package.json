@@ -1,0 +1,37 @@
+{
+  "name": "academic-skill-heatmap-dashboard",
+  "version": "1.0.0",
+  "description": "Smart Academic Skill Heatmap Dashboard - Complete student management system",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm install --production",
+    "start": "cd backend && npm start",
+    "deploy": "npm run build && npm run deploy:script",
+    "deploy:script": "./deploy.sh",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": [
+    "academic",
+    "dashboard",
+    "student-management",
+    "heatmap",
+    "education",
+    "react",
+    "nodejs",
+    "postgresql"
+  ],
+  "author": "Academic Dashboard Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/academic-skill-heatmap-dashboard.git"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
