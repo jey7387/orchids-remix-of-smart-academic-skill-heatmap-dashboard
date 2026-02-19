@@ -2,14 +2,18 @@
   "name": "academic-heatmap-backend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "npm install --production"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "pg": "^8.11.3",
+    "axios": "^1.13.5",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "dotenv": "^16.3.1"
+    "mongoose": "^9.2.1",
+    "pg": "^8.11.3"
   }
 }

@@ -1,11 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const { login, getProfile, getAllUsers, deleteUser } = require('../controllers/authController');
+const { register, login, getProfile, getAllUsers, deleteUser } = require('../controllers/authController');
 const { auth, roleCheck } = require('../middleware/auth');
+const pool = require('../config/db');
 
+// Public routes
+router.post('/register', register);
 router.post('/login', login);
-router.get('/profile', auth, getProfile);
-router.get('/users', auth, roleCheck('admin'), getAllUsers);
+
+// Protected routes
+router.get('/me', auth, getProfile);
+
+// Admin routes
+router.get('/users', auth, roleCheck('admin'), async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, name, email, role, department, roll_number, created_at FROM users ORDER BY created_at DESC'
+    );
+    res.json({ users: result.rows });
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 router.delete('/users/:id', auth, roleCheck('admin'), deleteUser);
 
 module.exports = router;

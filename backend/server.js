@@ -4,14 +4,21 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const skillRoutes = require('./routes/skills');
+const studentRoutes = require('./routes/students');
+const studentProfileRoutes = require('./routes/studentProfile');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api', skillRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/student', studentProfileRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
