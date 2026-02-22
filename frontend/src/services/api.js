@@ -37,7 +37,7 @@ export const getAlerts = () => api.get('/alerts');
 export const createStudent = (name, email, password) => api.post('/students', { name, email, password });
 export const getAllStudents = () => api.get('/students');
 export const getStudentById = (id) => api.get(`/students/${id}`);
-export const updateStudent = (id, name, email) => api.put(`/students/${id}`, { name, email });
+export const updateStudent = (id, studentData) => api.put(`/students/${id}`, studentData);
 export const deleteStudent = (id) => api.delete(`/students/${id}`);
 export const addStudentScores = (studentId, scores) => api.post(`/students/${studentId}/scores`, { studentId, scores });
 export const getStudentScores = (id) => api.get(`/students/${id}/scores`);

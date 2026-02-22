@@ -57,7 +57,7 @@ exports.getStudentById = async (req, res) => {
     const { id } = req.params;
     
     const result = await pool.query(
-      'SELECT id, name, email, role, created_at FROM users WHERE id = $1 AND role = $2',
+      'SELECT id, name, email, role, year, semester, department, roll_number, batch, created_at FROM users WHERE id = $1 AND role = $2',
       [id, 'student']
     );
     
@@ -77,7 +77,7 @@ exports.getStudentById = async (req, res) => {
 exports.updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name, email, year, semester, department, roll_number, batch } = req.body;
     
     // Check if student exists
     const existingStudent = await pool.query(
@@ -101,10 +101,19 @@ exports.updateStudent = async (req, res) => {
       }
     }
     
-    // Update student
+    // Update student with all academic fields
     const result = await pool.query(
-      'UPDATE users SET name = COALESCE($1, name), email = COALESCE($2, email) WHERE id = $3 AND role = $4 RETURNING id, name, email, role, created_at',
-      [name, email, id, 'student']
+      `UPDATE users SET 
+        name = COALESCE($1, name), 
+        email = COALESCE($2, email),
+        year = COALESCE($3, year),
+        semester = COALESCE($4, semester),
+        department = COALESCE($5, department),
+        roll_number = COALESCE($6, roll_number),
+        batch = COALESCE($7, batch)
+       WHERE id = $8 AND role = $9 
+       RETURNING id, name, email, role, year, semester, department, roll_number, batch, created_at`,
+      [name, email, year, semester, department, roll_number, batch, id, 'student']
     );
     
     res.json({

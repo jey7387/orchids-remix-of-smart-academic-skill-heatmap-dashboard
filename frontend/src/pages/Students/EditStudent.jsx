@@ -49,7 +49,7 @@ export default function EditStudent() {
     setSaving(true);
     
     try {
-      await updateStudent(id, formData.name, formData.email);
+      await updateStudent(id, formData);
       navigate('/students/manage');
     } catch (err) {
       console.error('Failed to update student:', err);
