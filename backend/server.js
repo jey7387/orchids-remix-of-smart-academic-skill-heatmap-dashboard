@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const pool = require('./config/db');
 const authRoutes = require('./routes/auth');
 const skillRoutes = require('./routes/skills');
 const studentRoutes = require('./routes/students');
