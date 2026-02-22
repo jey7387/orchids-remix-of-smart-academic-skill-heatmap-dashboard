@@ -63,12 +63,12 @@ export default function Profile({ user }) {
         <p className="text-slate-500 text-sm mt-1">Your account details</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-6 mb-6 max-w-lg">
-        <div className="flex items-center gap-4 mb-6">
+      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 mb-6 max-w-lg">
+        <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-2xl">
             {(profile || user)?.name?.charAt(0)}
           </div>
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="text-lg font-semibold text-slate-900">{(profile || user)?.name}</h3>
             <p className="text-sm text-slate-500">{(profile || user)?.email}</p>
             <span className="inline-block mt-1 px-2.5 py-0.5 bg-blue-50 text-blue-600 rounded-full text-xs font-medium capitalize">
@@ -81,7 +81,7 @@ export default function Profile({ user }) {
         {user?.role === 'student' && (
           <div className="space-y-4 border-t border-slate-100 pt-4">
             <h4 className="text-sm font-semibold text-slate-700 mb-3">Academic Information</h4>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-xs text-slate-500">Year</p>
                 <p className="text-sm font-medium text-slate-900">{(profile || user)?.year || 'Not set'}</p>

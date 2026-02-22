@@ -76,8 +76,20 @@ export default function Layout({ children, user, onLogout }) {
 
   return (
     <div className="flex h-screen bg-slate-100">
+      {/* Mobile menu toggle */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="p-2 bg-white rounded-lg shadow-md border border-slate-200"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
       {/* Sidebar */}
-      <aside className={`${collapsed ? 'w-[72px]' : 'w-64'} sidebar-transition bg-white border-r border-slate-200 flex flex-col shrink-0`}>
+      <aside className={`${collapsed ? 'w-[72px]' : 'w-64'} sidebar-transition bg-white border-r border-slate-200 flex flex-col shrink-0 fixed lg:relative h-full z-40 ${collapsed ? 'lg:w-[72px]' : 'lg:w-64'} ${!collapsed ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         {/* Logo */}
         <div className={`h-16 flex items-center border-b border-slate-200 ${collapsed ? 'justify-center px-2' : 'px-5'}`}>
           <div className="flex items-center gap-2.5">
@@ -169,10 +181,18 @@ export default function Layout({ children, user, onLogout }) {
         </div>
       </aside>
 
+      {/* Mobile overlay */}
+      {!collapsed && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+
       {/* Main content area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-0">
         {/* Top navbar */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 shrink-0">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">{pageTitle}</h2>
           </div>
@@ -234,7 +254,7 @@ export default function Layout({ children, user, onLogout }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-4 sm:p-6">
           <div className="animate-fadeIn">
             {children}
           </div>
